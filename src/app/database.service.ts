@@ -37,7 +37,7 @@ export class DatabaseService {
     );
 
     await this.databaseObj.executeSql(
-      `CREATE TABLE IF NOT EXISTS ${this.tables.persons} (id INTEGER PRIMARY KEY AUTOINCREMENT, category_id INTEGER UNSIGNED NOT NULL, name VARCHAR(255) NOT NULL)`,
+      `CREATE TABLE IF NOT EXISTS ${this.tables.persons} (id INTEGER PRIMARY KEY AUTOINCREMENT, category_id INTEGER UNSIGNED NOT NULL, name VARCHAR(255) NOT NULL, kapasitas INT NOT NULL)`,
       []
     );
   }
@@ -103,10 +103,10 @@ export class DatabaseService {
       });
   }
 
-  async addPerson(name: string, category_id: number) {
+  async addPerson(name: string, category_id: number, kapasitas: number) {
     return this.databaseObj
       .executeSql(
-        `INSERT INTO ${this.tables.persons} (name, category_id) VALUES ('${name}', ${category_id})`,
+        `INSERT INTO ${this.tables.persons} (name, category_id, kapasitas) VALUES ('${name}', ${category_id}, ${kapasitas})`,
         []
       )
       .then(() => {
@@ -120,7 +120,7 @@ export class DatabaseService {
   async getPersons() {
     return this.databaseObj
       .executeSql(
-        `SELECT persons.id, persons.category_id, persons.name as person, categories.name as category FROM persons INNER JOIN categories ON categories.id = persons.category_id ORDER BY person ASC`,
+        `SELECT persons.id, persons.category_id, persons.name as person, categories.name as category, persons.kapasitas as kapasitas FROM persons INNER JOIN categories ON categories.id = persons.category_id ORDER BY person ASC`,
         []
       )
       .then((res) => {
@@ -142,10 +142,15 @@ export class DatabaseService {
       });
   }
 
-  async editPerson(name: string, category_id: number, id: number) {
+  async editPerson(
+    name: string,
+    category_id: number,
+    id: number,
+    kapasitas: number
+  ) {
     return this.databaseObj
       .executeSql(
-        `UPDATE ${this.tables.persons} SET name = '${name}', category_id = ${category_id} WHERE id = ${id}`,
+        `UPDATE ${this.tables.persons} SET name = '${name}', category_id = ${category_id}, kapasitas = ${kapasitas} WHERE id = ${id}`,
         []
       )
       .then(() => {

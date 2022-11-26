@@ -11,6 +11,7 @@ export class PersonPage implements OnInit {
   persons: any = [];
   category_id: number = 0;
   categories: any = [];
+  kapasitasRuang: number = 0;
 
   editMode: boolean = false;
   selected_category_id: number = 0;
@@ -47,22 +48,29 @@ export class PersonPage implements OnInit {
 
     if (this.editMode) {
       this.database
-        .editPerson(this.personName, this.category_id, this.editId)
+        .editPerson(
+          this.personName,
+          this.category_id,
+          this.editId,
+          this.kapasitasRuang
+        )
         .then((data) => {
           this.personName = "";
           this.editMode = false;
           this.editId = 0;
           this.selected_category_id = 0;
+          this.kapasitasRuang = 0;
           alert(data);
           this.getPersons();
         });
     } else {
       // add
       this.database
-        .addPerson(this.personName, this.category_id)
+        .addPerson(this.personName, this.category_id, this.kapasitasRuang)
         .then((data) => {
           this.personName = "";
           this.category_id = 0;
+          this.kapasitasRuang = 0;
           alert(data);
           this.getPersons();
         });
@@ -92,5 +100,6 @@ export class PersonPage implements OnInit {
     this.selected_category_id = person.category_id;
     this.personName = person.person;
     this.editId = person.id;
+    this.kapasitasRuang = person.kapasitas;
   }
 }

@@ -25,6 +25,11 @@
       <ion-input [(ngModel)]="personName"></ion-input>
     </ion-item>
 
+    <ion-item>
+      <ion-label position="floating">Kapasitas</ion-label>
+      <ion-input [(ngModel)]="kapasitasRuang"></ion-input>
+    </ion-item>
+
     <ion-button expand="block" (click)="addPerson()">Submit</ion-button>
   </ion-list>
 
@@ -36,6 +41,8 @@
 
       <ion-item>
         <ion-label>{{ person.person }}</ion-label>
+        <ion-badge color="warning">{{ person.kapasitas }}</ion-badge>
+        &nbsp;&nbsp;
         <ion-badge color="primary">{{ person.category }}</ion-badge>
       </ion-item>
 
